@@ -21,7 +21,7 @@ public class UserDAO {
                 if (!resultSet.next()) {
                     return null;
                 }
-                return new User(resultSet.getString("full_name"), resultSet.getString("email"),
+                return new User(resultSet.getInt("user_id"), resultSet.getString("full_name"), resultSet.getString("email"),
                         resultSet.getString("password_hash"), null, null, null, null);
             }
         }

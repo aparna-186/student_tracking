@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.example.skillsprint.dao.UserDAO;
 import org.example.skillsprint.model.User;
 
@@ -44,7 +45,10 @@ public class LoginServlet extends HttpServlet {
         try {
             User user = userDAO.findByEmail(email);
             if (user != null && verifyPassword(password, user.getPasswordHash())) {
-                show(request, response, "Login successful.", true);
+                HttpSession session = request.getSession();
+                session.setAttribute("userId", user.getUserId());
+                session.setAttribute("userName", user.getFullName());
+                response.sendRedirect(request.getContextPath() + "/session-test");
             } else {
                 show(request, response, "Invalid email or password", false);
             }
