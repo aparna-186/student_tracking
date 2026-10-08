@@ -11,6 +11,22 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Types;
 
 public class UserDAO {
+    public User findByEmail(String email) throws SQLException {
+        String sql = "SELECT user_id, full_name, email, password_hash FROM users WHERE email = ?";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, email);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (!resultSet.next()) {
+                    return null;
+                }
+                return new User(resultSet.getString("full_name"), resultSet.getString("email"),
+                        resultSet.getString("password_hash"), null, null, null, null);
+            }
+        }
+    }
+
     public boolean emailExists(String email) throws SQLException {
         String sql = "SELECT 1 FROM users WHERE email = ?";
 
