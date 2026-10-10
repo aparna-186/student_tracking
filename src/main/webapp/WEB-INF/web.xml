@@ -88,4 +88,13 @@
         <servlet-name>DashboardServlet</servlet-name>
         <url-pattern>/dashboard</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>InternshipApplicationServlet</servlet-name>
+        <servlet-class>org.example.skillsprint.servlet.InternshipApplicationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InternshipApplicationServlet</servlet-name>
+        <url-pattern>/applications/*</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -27,7 +27,7 @@
         <article class="card"><h2>Pending Goals</h2><p class="count">${dashboardSummary.pendingGoals}</p></article>
     </section>
     <nav aria-label="Application navigation">
-        <span>Applications</span>
+        <a href="${pageContext.request.contextPath}/applications/list">Applications</a>
         <span>Coding</span>
         <span>Certificates</span>
         <span>Goals</span>
