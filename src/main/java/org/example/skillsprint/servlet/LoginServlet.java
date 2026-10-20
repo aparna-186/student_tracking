@@ -45,10 +45,15 @@ public class LoginServlet extends HttpServlet {
         try {
             User user = userDAO.findByEmail(email);
             if (user != null && verifyPassword(password, user.getPasswordHash())) {
-                HttpSession session = request.getSession();
+                HttpSession session = request.getSession(false);
+                if (session == null) {
+                    session = request.getSession();
+                } else {
+                    request.changeSessionId();
+                }
                 session.setAttribute("userId", user.getUserId());
                 session.setAttribute("userName", user.getFullName());
-                response.sendRedirect(request.getContextPath() + "/session-test");
+                response.sendRedirect(request.getContextPath() + "/dashboard");
             } else {
                 show(request, response, "Invalid email or password", false);
             }

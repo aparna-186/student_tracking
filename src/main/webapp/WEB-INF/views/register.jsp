@@ -1,60 +1,18 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register - SkillSprint</title>
-</head>
-<body>
-<main>
-    <h1>Create your SkillSprint account</h1>
-
-    <% if (request.getAttribute("error") != null) { %>
-        <p role="alert"><%= request.getAttribute("error") %></p>
-    <% } %>
-
-    <% if (request.getAttribute("success") != null) { %>
-        <p role="status"><%= request.getAttribute("success") %></p>
-        <p><a href="<%= request.getContextPath() %>/login">Continue to login</a></p>
-    <% } else { %>
-        <form method="post" action="<%= request.getContextPath() %>/register">
-            <div>
-                <label for="fullName">Full Name</label>
-                <input type="text" id="fullName" name="fullName" maxlength="100" required>
-            </div>
-            <div>
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" maxlength="100" required>
-            </div>
-            <div>
-                <label for="college">College (optional)</label>
-                <input type="text" id="college" name="college" maxlength="150">
-            </div>
-            <div>
-                <label for="branch">Branch (optional)</label>
-                <input type="text" id="branch" name="branch" maxlength="100">
-            </div>
-            <div>
-                <label for="githubUrl">GitHub URL (optional)</label>
-                <input type="url" id="githubUrl" name="githubUrl" maxlength="255">
-            </div>
-            <div>
-                <label for="linkedinUrl">LinkedIn URL (optional)</label>
-                <input type="url" id="linkedinUrl" name="linkedinUrl" maxlength="255">
-            </div>
-            <div>
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" minlength="8"
-                       maxlength="128" required>
-            </div>
-            <div>
-                <label for="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword"
-                       minlength="8" maxlength="128" required>
-            </div>
-            <button type="submit">Register</button>
-        </form>
-    <% } %>
-</main>
-</body>
-</html>
+<%! private String esc(Object value) { return String.valueOf(value == null ? "" : value).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&#39;"); } %>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Create account · SkillSprint</title><link rel="stylesheet" href="<%= request.getContextPath() %>/assets/css/skillsprint.css"><script defer src="<%= request.getContextPath() %>/assets/js/skillsprint.js"></script></head>
+<body><div class="auth-page"><aside class="auth-aside"><a class="brand" href="<%= request.getContextPath() %>/"><span class="brand-mark">S</span><span>SkillSprint</span></a><div class="auth-aside-copy"><span class="eyebrow">A focused start</span><h1>Build a career you’re proud of.</h1><p>Organize your effort, celebrate your progress, and stay ready for what’s next.</p></div><div class="auth-aside-foot">A clearer path from learning to opportunity.</div></aside>
+<main class="auth-main"><section class="auth-card"><h2>Create your account</h2><p class="auth-intro">Start building your personal career workspace.</p>
+<% if (request.getAttribute("error") != null) { %><div class="alert error" role="alert" data-dismissible><%= esc(request.getAttribute("error")) %><button class="alert-dismiss" type="button" data-dismiss aria-label="Dismiss message">×</button></div><% } %>
+<% if (request.getAttribute("success") != null) { %><div class="alert success" role="status"><%= esc(request.getAttribute("success")) %></div><p><a class="button" href="<%= request.getContextPath() %>/login">Continue to sign in</a></p><% } else { %>
+<form class="auth-form" method="post" action="<%= request.getContextPath() %>/register" data-submitting>
+<div class="field"><label for="fullName">Full name</label><input type="text" id="fullName" name="fullName" maxlength="100" autocomplete="name" placeholder="Your name" required></div>
+<div class="field"><label for="email">Email address</label><input type="email" id="email" name="email" maxlength="100" autocomplete="email" placeholder="you@example.com" required></div>
+<div class="field"><label for="college">College <span class="field-hint">Optional</span></label><input type="text" id="college" name="college" maxlength="150" autocomplete="organization" placeholder="Your college"></div>
+<div class="field"><label for="branch">Branch <span class="field-hint">Optional</span></label><input type="text" id="branch" name="branch" maxlength="100" placeholder="e.g. Computer Science"></div>
+<div class="field"><label for="githubUrl">GitHub profile <span class="field-hint">Optional</span></label><input type="url" id="githubUrl" name="githubUrl" maxlength="255" placeholder="https://github.com/you"></div>
+<div class="field"><label for="linkedinUrl">LinkedIn profile <span class="field-hint">Optional</span></label><input type="url" id="linkedinUrl" name="linkedinUrl" maxlength="255" placeholder="https://linkedin.com/in/you"></div>
+<div class="field"><label for="password">Password</label><div class="password-wrap"><input type="password" id="password" name="password" minlength="8" maxlength="128" autocomplete="new-password" placeholder="At least 8 characters" required><button class="password-toggle" type="button" data-password-toggle aria-controls="password" aria-pressed="false">Show</button></div></div>
+<div class="field"><label for="confirmPassword">Confirm password</label><div class="password-wrap"><input type="password" id="confirmPassword" name="confirmPassword" minlength="8" maxlength="128" autocomplete="new-password" placeholder="Re-enter your password" required><button class="password-toggle" type="button" data-password-toggle aria-controls="confirmPassword" aria-pressed="false">Show</button></div></div>
+<button type="submit">Create account</button></form><p class="auth-switch">Already registered? <a href="<%= request.getContextPath() %>/login">Sign in</a></p><% } %>
+</section></main></div></body></html>

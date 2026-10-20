@@ -1,27 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login - SkillSprint</title>
-</head>
-<body>
-<main>
-    <h1>Login to SkillSprint</h1>
-    <% if (request.getAttribute("message") != null) { %>
-        <p role="<%= Boolean.TRUE.equals(request.getAttribute("success")) ? "status" : "alert" %>"><%= request.getAttribute("message") %></p>
-    <% } %>
-    <form method="post" action="<%= request.getContextPath() %>/login">
-        <div>
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" maxlength="100" required>
-        </div>
-        <div>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-        <button type="submit">Login</button>
-    </form>
-</main>
-</body>
-</html>
+<%! private String esc(Object value) { return String.valueOf(value == null ? "" : value).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&#39;"); } %>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Sign in · SkillSprint</title><link rel="stylesheet" href="<%= request.getContextPath() %>/assets/css/skillsprint.css"><script defer src="<%= request.getContextPath() %>/assets/js/skillsprint.js"></script></head>
+<body><div class="auth-page"><aside class="auth-aside"><a class="brand" href="<%= request.getContextPath() %>/"><span class="brand-mark">S</span><span>SkillSprint</span></a><div class="auth-aside-copy"><span class="eyebrow">Your next chapter starts here</span><h1>Keep your momentum.</h1><p>Bring your applications, practice, and career goals together in one place.</p></div><div class="auth-aside-foot">A clearer path from learning to opportunity.</div></aside>
+<main class="auth-main"><section class="auth-card"><h2>Welcome back</h2><p class="auth-intro">Sign in to pick up where you left off.</p>
+<% if (request.getAttribute("message") != null) { boolean success = Boolean.TRUE.equals(request.getAttribute("success")); %><div class="alert <%= success ? "success" : "error" %>" role="<%= success ? "status" : "alert" %>" data-dismissible><%= esc(request.getAttribute("message")) %><button class="alert-dismiss" type="button" data-dismiss aria-label="Dismiss message">×</button></div><% } %>
+<form class="auth-form" method="post" action="<%= request.getContextPath() %>/login" data-submitting>
+<div class="field"><label for="email">Email address</label><input type="email" id="email" name="email" maxlength="100" autocomplete="email" placeholder="you@example.com" required></div>
+<div class="field"><label for="password">Password</label><div class="password-wrap"><input type="password" id="password" name="password" autocomplete="current-password" placeholder="Enter your password" required><button class="password-toggle" type="button" data-password-toggle aria-controls="password" aria-pressed="false">Show</button></div></div>
+<button type="submit">Sign in</button></form><p class="auth-switch">New to SkillSprint? <a href="<%= request.getContextPath() %>/register">Create an account</a></p></section></main></div></body></html>

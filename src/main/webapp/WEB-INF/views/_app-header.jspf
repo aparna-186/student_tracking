@@ -1,0 +1,39 @@
+<%! private String shellEsc(Object value) { return String.valueOf(value == null ? "" : value).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&#39;"); } %>
+<% String shellName = shellEsc(session.getAttribute("userName")); String shellTitle = shellEsc(request.getAttribute("pageTitle")); String shellSubtitle = shellEsc(request.getAttribute("pageSubtitle")); String shellActive = String.valueOf(request.getAttribute("activePage")); Object shellToken = request.getAttribute("csrfToken"); if (shellToken == null) { shellToken = session.getAttribute(org.example.skillsprint.filter.CsrfFilter.class.getName() + ".token"); request.setAttribute("csrfToken", shellToken); } %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= shellTitle %> · SkillSprint</title>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/css/skillsprint.css">
+    <script defer src="<%= request.getContextPath() %>/assets/js/skillsprint.js"></script>
+</head>
+<body>
+<div class="app-shell">
+    <aside class="sidebar" id="app-sidebar" aria-label="Main navigation">
+        <a class="brand" href="<%= request.getContextPath() %>/dashboard"><span class="brand-mark" aria-hidden="true">S</span><span>SkillSprint</span></a>
+        <p class="sidebar-caption">Workspace</p>
+        <nav class="side-nav">
+            <a class="<%= "dashboard".equals(shellActive) ? "active" : "" %>" href="<%= request.getContextPath() %>/dashboard"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="10" width="8" height="11" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/></svg></span>Dashboard</a>
+            <a class="<%= "applications".equals(shellActive) ? "active" : "" %>" href="<%= request.getContextPath() %>/applications/list"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 4V2m8 2V2M8 10h8M8 14h6"/></svg></span>Internship Applications</a>
+            <a class="<%= "coding".equals(shellActive) ? "active" : "" %>" href="<%= request.getContextPath() %>/coding/list"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5 3 12l5 7m8-14 5 7-5 7m-2-16-4 20"/></svg></span>Coding Progress</a>
+            <a class="<%= "certificates".equals(shellActive) ? "active" : "" %>" href="<%= request.getContextPath() %>/certificates/list"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h8l4 4v7M7 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h5"/><path d="M14 3v5h5m-2 8 1.5 3 3.5.5-2.5 2.5.5 3.5-3-1.7-3 1.7.5-3.5-2.5-2.5 3.5-.5z"/></svg></span>Certificates</a>
+            <a class="<%= "goals".equals(shellActive) ? "active" : "" %>" href="<%= request.getContextPath() %>/goals/list"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg></span>Goals</a>
+            <a class="<%= "profile".equals(shellActive) ? "active" : "" %>" href="<%= request.getContextPath() %>/profile"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>Profile</a>
+        </nav>
+        <div class="sidebar-bottom"><span>Signed in as</span><strong><%= shellName %></strong>
+            <form method="post" action="<%= request.getContextPath() %>/logout">
+                <input type="hidden" name="_csrf" value="<%= shellEsc(shellToken) %>">
+                <button type="submit">Log out</button>
+            </form>
+        </div>
+    </aside>
+    <div class="workspace">
+        <header class="topbar">
+            <button class="menu-toggle" type="button" data-menu-toggle aria-controls="app-sidebar" aria-expanded="false" aria-label="Open navigation"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+            <div class="topbar-kicker">Your career workspace <span aria-hidden="true">/</span> <strong><%= shellTitle %></strong></div>
+            <a class="button secondary" href="<%= request.getContextPath() %>/profile">My profile</a>
+        </header>
+        <main class="page-content">
+            <div class="page-heading"><div><h1><%= shellTitle %></h1><p><%= shellSubtitle %></p></div><div class="page-heading-actions"><% if (request.getAttribute("pageActionLabel") != null) { %><a class="button" href="<%= request.getContextPath() %><%= shellEsc(request.getAttribute("pageActionUrl")) %>"><%= shellEsc(request.getAttribute("pageActionLabel")) %></a><% } %></div></div>

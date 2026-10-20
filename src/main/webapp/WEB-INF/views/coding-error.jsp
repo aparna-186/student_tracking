@@ -1,2 +1,4 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Coding Progress - SkillSprint</title></head><body><main><h1>Coding Progress</h1><p>${error}</p><p><a href="${pageContext.request.contextPath}/coding/list">Return to coding records</a></p></main></body></html>
+<%! private String esc(Object value) { return String.valueOf(value==null?"":value).replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace("\"","&quot;").replace("'","&#39;"); } %>
+<% request.setAttribute("pageTitle","Coding Progress"); request.setAttribute("pageSubtitle","Something interrupted the request."); request.setAttribute("activePage","coding"); %>
+<%@ include file="_app-header.jspf" %><section class="error-page"><div class="alert error" role="alert"><%=esc(request.getAttribute("error"))%></div><a class="button" href="<%=request.getContextPath()%>/coding/list">Return to coding records</a></section><%@ include file="_app-footer.jspf" %>
