@@ -97,4 +97,22 @@
         <servlet-name>InternshipApplicationServlet</servlet-name>
         <url-pattern>/applications/*</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CodingProgressServlet</servlet-name>
+        <servlet-class>org.example.skillsprint.servlet.CodingProgressServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CodingProgressServlet</servlet-name>
+        <url-pattern>/coding/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CertificateServlet</servlet-name>
+        <servlet-class>org.example.skillsprint.servlet.CertificateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CertificateServlet</servlet-name>
+        <url-pattern>/certificates/*</url-pattern>
+    </servlet-mapping>
 </web-app>

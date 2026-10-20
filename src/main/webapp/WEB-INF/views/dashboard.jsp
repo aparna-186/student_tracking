@@ -28,8 +28,8 @@
     </section>
     <nav aria-label="Application navigation">
         <a href="${pageContext.request.contextPath}/applications/list">Applications</a>
-        <span>Coding</span>
-        <span>Certificates</span>
+        <a href="${pageContext.request.contextPath}/coding/list">Coding</a>
+        <a href="${pageContext.request.contextPath}/certificates/list">Certificates</a>
         <span>Goals</span>
         <span>Profile</span>
         <form method="post" action="${pageContext.request.contextPath}/logout">
