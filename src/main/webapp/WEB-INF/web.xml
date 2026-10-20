@@ -115,4 +115,13 @@
         <servlet-name>CertificateServlet</servlet-name>
         <url-pattern>/certificates/*</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GoalServlet</servlet-name>
+        <servlet-class>org.example.skillsprint.servlet.GoalServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GoalServlet</servlet-name>
+        <url-pattern>/goals/*</url-pattern>
+    </servlet-mapping>
 </web-app>

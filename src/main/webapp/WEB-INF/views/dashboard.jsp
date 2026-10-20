@@ -30,7 +30,7 @@
         <a href="${pageContext.request.contextPath}/applications/list">Applications</a>
         <a href="${pageContext.request.contextPath}/coding/list">Coding</a>
         <a href="${pageContext.request.contextPath}/certificates/list">Certificates</a>
-        <span>Goals</span>
+        <a href="${pageContext.request.contextPath}/goals/list">Goals</a>
         <span>Profile</span>
         <form method="post" action="${pageContext.request.contextPath}/logout">
             <button type="submit">Logout</button>
