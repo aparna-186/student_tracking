@@ -30,17 +30,17 @@ public class CsrfFilter implements Filter {
         HttpSession session = httpRequest.getSession(false);
         String method = httpRequest.getMethod();
 
+        if (hasCsrfQueryParameter(httpRequest.getQueryString())) {
+            httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Missing or invalid CSRF token.");
+            return;
+        }
+
         if (isSafeMethod(method)) {
             if (session != null && session.getAttribute("userId") != null) {
                 String token = getOrCreateToken(session);
                 httpRequest.setAttribute(REQUEST_TOKEN_ATTRIBUTE, token);
             }
             chain.doFilter(request, response);
-            return;
-        }
-
-        if (hasCsrfQueryParameter(httpRequest.getQueryString())) {
-            httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Missing or invalid CSRF token.");
             return;
         }
 

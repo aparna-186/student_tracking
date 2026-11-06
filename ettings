@@ -1,0 +1,8 @@
+ .gitignore            |  4 [32m+++[m[31m-[m
+ .idea/.gitignore      | 10 [31m----------[m
+ .idea/dataSources.xml | 17 [31m-----------------[m
+ .idea/encodings.xml   |  7 [31m-------[m
+ .idea/misc.xml        | 14 [31m--------------[m
+ .idea/sqldialects.xml |  6 [31m------[m
+ .idea/vcs.xml         |  6 [31m------[m
+ 7 files changed, 3 insertions(+), 61 deletions(-)

@@ -2,6 +2,8 @@ package org.example.skillsprint.dao;
 
 import org.example.skillsprint.model.Certificate;
 import org.example.skillsprint.util.DBConnection;
+import org.example.skillsprint.util.JdbcOwnershipCheck;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +14,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class CertificateDAO {
     private static final String COLUMNS = "certificate_id, user_id, title, issuer, issue_date, credential_link";
 
@@ -70,14 +73,9 @@ public class CertificateDAO {
             if (updatedRows == 1) return true;
 
             // MySQL may report zero changed rows when the submitted values match the stored values.
-            String ownedRecordSql = "SELECT 1 FROM certificates WHERE certificate_id = ? AND user_id = ?";
-            try (PreparedStatement check = connection.prepareStatement(ownedRecordSql)) {
-                check.setInt(1, certificate.getCertificateId());
-                check.setInt(2, userId);
-                try (ResultSet results = check.executeQuery()) {
-                    return results.next();
-                }
-            }
+            return JdbcOwnershipCheck.exists(connection,
+                    "SELECT 1 FROM certificates WHERE certificate_id = ? AND user_id = ?",
+                    certificate.getCertificateId(), userId);
         }
     }
 

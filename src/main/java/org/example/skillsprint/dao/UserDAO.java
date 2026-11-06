@@ -2,6 +2,7 @@ package org.example.skillsprint.dao;
 
 import org.example.skillsprint.model.User;
 import org.example.skillsprint.util.DBConnection;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Types;
 
+@Repository
 public class UserDAO {
     public User findByEmail(String email) throws SQLException {
         String sql = "SELECT user_id, full_name, email, password_hash FROM users WHERE email = ?";

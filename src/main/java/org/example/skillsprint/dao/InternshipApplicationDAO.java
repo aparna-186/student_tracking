@@ -2,11 +2,13 @@ package org.example.skillsprint.dao;
 
 import org.example.skillsprint.model.InternshipApplication;
 import org.example.skillsprint.util.DBConnection;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class InternshipApplicationDAO {
     private static final String COLUMNS = "application_id, user_id, company_name, role, application_reference, applied_date, status, notes";
 

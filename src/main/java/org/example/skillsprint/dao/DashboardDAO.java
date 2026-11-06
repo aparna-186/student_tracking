@@ -2,12 +2,14 @@ package org.example.skillsprint.dao;
 
 import org.example.skillsprint.model.DashboardSummary;
 import org.example.skillsprint.util.DBConnection;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Repository
 public class DashboardDAO {
     public DashboardSummary getSummaryForUser(int userId) throws SQLException {
         try (Connection connection = DBConnection.getConnection()) {

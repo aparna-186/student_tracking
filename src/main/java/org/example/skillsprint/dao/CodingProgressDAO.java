@@ -2,6 +2,7 @@ package org.example.skillsprint.dao;
 
 import org.example.skillsprint.model.CodingProgress;
 import org.example.skillsprint.util.DBConnection;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +13,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class CodingProgressDAO {
     private static final String COLUMNS = "coding_id, user_id, platform, problem_name, difficulty, problem_status, solved_date, problem_url";
 

@@ -2,6 +2,8 @@ package org.example.skillsprint.dao;
 
 import org.example.skillsprint.model.Goal;
 import org.example.skillsprint.util.DBConnection;
+import org.example.skillsprint.util.JdbcOwnershipCheck;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +14,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class GoalDAO {
     private static final String COLUMNS = "goal_id, user_id, goal_title, deadline, status";
 
@@ -73,7 +76,9 @@ public class GoalDAO {
             statement.setInt(4, goal.getGoalId());
             statement.setInt(5, userId);
             if (statement.executeUpdate() == 1) return true;
-            return ownedGoalExists(connection, goal.getGoalId(), userId);
+            return JdbcOwnershipCheck.exists(connection,
+                    "SELECT 1 FROM goals WHERE goal_id = ? AND user_id = ?",
+                    goal.getGoalId(), userId);
         }
     }
 
@@ -84,7 +89,8 @@ public class GoalDAO {
             statement.setInt(1, goalId);
             statement.setInt(2, userId);
             if (statement.executeUpdate() == 1) return true;
-            return ownedGoalExists(connection, goalId, userId);
+            return JdbcOwnershipCheck.exists(connection,
+                    "SELECT 1 FROM goals WHERE goal_id = ? AND user_id = ?", goalId, userId);
         }
     }
 
@@ -95,17 +101,6 @@ public class GoalDAO {
             statement.setInt(1, goalId);
             statement.setInt(2, userId);
             return statement.executeUpdate() == 1;
-        }
-    }
-
-    private boolean ownedGoalExists(Connection connection, int goalId, int userId) throws SQLException {
-        String sql = "SELECT 1 FROM goals WHERE goal_id = ? AND user_id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, goalId);
-            statement.setInt(2, userId);
-            try (ResultSet results = statement.executeQuery()) {
-                return results.next();
-            }
         }
     }
 
