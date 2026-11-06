@@ -5,18 +5,28 @@ SkillSprint is a Java web application for students to keep their career preparat
 ## Technology
 
 - Java 17
+- Spring Framework 6.2.19 (Spring MVC and dependency injection; no Spring Boot)
 - Maven WAR
 - Jakarta Servlet 6.0 and JSP
 - JDBC with MySQL Connector/J
 - MySQL
 - Apache Tomcat 10.1
 
-The application follows this request flow:
+Spring MVC handles application routes after the existing security filters. Controllers use injected DAO components; DAOs use the existing JDBC connection utility and SQL. JSPs remain the view layer.
 
 ```text
-Browser → Servlet → DAO → JDBC → MySQL
-                     ↓
-                  Model → JSP response
+Browser
+  ↓
+AuthFilter → CsrfFilter (on their configured URL mappings)
+  ↓
+Spring DispatcherServlet
+  ↓
+Spring MVC Controllers
+  ↓ constructor-injected DAOs
+DBConnection → JDBC → MySQL
+
+Controller model data → JSP views under /WEB-INF/views/
+Static resources → /assets/**
 ```
 
 ## Features
@@ -37,7 +47,7 @@ Tracker and profile records are associated with the signed-in user. Tracker page
 
 Install or have available:
 
-- JDK 11 or later
+- JDK 17 or later
 - Maven 3.6 or later
 - MySQL 8
 - Apache Tomcat 10.1
@@ -111,23 +121,25 @@ Prefix routes with the deployed context path when entering them directly in a br
 
 ```text
 src/main/java/org/example/skillsprint/
-├── dao/       Database queries and persistence
-├── filter/    Authentication and CSRF request filters
-├── model/     Data objects used by the application
-├── servlet/   HTTP route handling and request coordination
-└── util/      Shared JDBC connection utility
+├── config/      Spring MVC configuration and component scanning
+├── controller/ Spring MVC route handlers
+├── dao/         Spring-managed JDBC repositories
+├── filter/      Authentication and CSRF request filters
+├── model/       Application data objects
+├── servlet/     Retained legacy Servlet sources; not URL-mapped
+└── util/        JDBC connection and shared JDBC helpers
 
 src/main/webapp/
 ├── assets/                 Shared CSS and JavaScript
 ├── WEB-INF/views/          JSP pages and shared view fragments
-├── WEB-INF/web.xml         Servlet and filter configuration
+├── WEB-INF/web.xml         DispatcherServlet and filter configuration
 └── index.jsp               Public landing page
 
 database/schema.sql         Database and table definitions
 pom.xml                     Maven project and dependency configuration
 ```
 
-JSP views are kept under `WEB-INF` so they are reached through the application's servlets rather than requested directly. Servlets handle HTTP input and forwarding; DAOs contain SQL and use JDBC; models carry data between these layers and the JSP views.
+JSP views stay under `WEB-INF` and are resolved by Spring's JSP view resolver, so they cannot be requested directly. `WebConfig` enables Spring MVC, scans the controller and DAO packages, maps `/assets/**`, and resolves views under `/WEB-INF/views/`. `web.xml` registers one `DispatcherServlet` and retains the existing authentication and CSRF filters. The legacy Servlet source files remain in the project but are no longer registered as route handlers.
 
 ## Security notes
 
